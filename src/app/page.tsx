@@ -1,112 +1,112 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+import Color from "colorjs.io";
 
 export default function Home() {
+  let baseColor = { h: 54 };
+  let baseInputColor;
+
+  const colorPalette = [
+    { h: 240, c: "0.02", l: "97%" },
+    { h: 240, c: "0.05", l: "89%" },
+    { h: 240, c: "0.12", l: "80%" },
+    { h: 240, c: "0.19", l: "71%" },
+    { h: 240, c: "0.27", l: "60%" },
+    { h: 240, c: "0.19", l: "49%" },
+    { h: 240, c: "0.12", l: "38%" },
+    { h: 240, c: "0.05", l: "25%" },
+    { h: 240, c: "0.02", l: "12%" },
+  ];
+
+  const colorPaletteOKHSL = [
+    { h: baseColor.h, s: "95%", l: "5%" },
+    { h: baseColor.h, s: "95%", l: "11%" },
+    { h: baseColor.h, s: "92%", l: "17%" },
+    { h: baseColor.h, s: "90%", l: "23%" },
+    { h: baseColor.h, s: "88%", l: "29%" },
+    { h: baseColor.h, s: "85%", l: "35%" },
+    { h: baseColor.h, s: "82%", l: "41%" },
+    { h: baseColor.h, s: "80%", l: "47%" },
+    { h: baseColor.h, s: "77%", l: "53%" },
+    { h: baseColor.h, s: "75%", l: "59%" },
+    { h: baseColor.h, s: "70%", l: "65%" },
+    { h: baseColor.h, s: "64%", l: "71%" },
+    { h: baseColor.h, s: "62%", l: "77%" },
+    { h: baseColor.h, s: "60%", l: "83%" },
+    { h: baseColor.h, s: "60%", l: "93%" },
+  ];
+
+  //any color to oklch accepted by css
+  function toOKLCH(input: string) {
+    let color = new Color(input).to("oklch").toString({ format: "oklch" });
+    return color;
+  }
+
+  // any color to okHSL
+  //not working on released version, I will need to use oklch #cry #sad
+  // function toOkhsl(input) {
+  //   let color = new Color(input).to("okhsl").toString({ format: "okhsl" });
+  //   return color;
+  // }
+
+  // any color to HSL for compatibility reasons
+  function toHSL(input: string) {
+    let color = new Color(input)
+      .to("hsl")
+      .toGamut({ space: "hsl" })
+      .toGamut("hsl")
+      .toString();
+
+    return color;
+  }
+
+  function createCSSvariables(
+    sourceColor: string,
+    paletteName: string,
+    array: []
+  ) {
+    const color = new Color(sourceColor).to("oklch");
+    array.forEach((item: object, index: number) => {
+      let variableName = `--color-${index}-${paletteName + color.coords[2]}`;
+      let colorValue = toHSL(`oklch(${item.l} ${item.c} ${color.coords[2]})`);
+      document.documentElement.style.setProperty(variableName, colorValue);
+    });
+  }
+
+  const [sourceColor, setSourceColor] = useState("#5C5CFF");
+  const [inputValue, setInputValue] = useState("#5C5CFF");
+
+  useEffect(() => {
+    createCSSvariables(sourceColor, "teste1000", colorPalette);
+    return () => {};
+  }, [sourceColor]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main className="grid grid-cols-8 gap-4 p-10 w-full min-h-[60vh]">
+      <aside className="col-span-2 bg-neutral-100 border-neutral-400 border rounded p-4 ">
+        <h1 className=" text-2xl">Color Playground</h1>
+        <input
+          type="text"
+          onChange={(e) => setInputValue(e.target.value)}
+          value={inputValue}
+          placeholder="Paste color"
+          className="w-full bg-white border-neutral-400 border rounded p-4 "
+        ></input>
+        <button
+          onClick={() => setSourceColor(inputValue)}
+          className="w-full bg-neutral-100 border-neutral-400 border rounded p-4 "
+        >
+          Go
+        </button>
+      </aside>
+      <div className=" col-span-6 gap-4 flex flex-col">
+        <div className="flex gap-2 bg-neutral-100 border-neutral-400 border rounded p-4">
+          {colorPalette.map((item) => {
+            return (
+              <div key={item.h} className="size-24 rounded bg-slate-400"></div>
+            );
+          })}
         </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
       </div>
     </main>
   );
