@@ -75,6 +75,7 @@ export default function Home() {
 
   const [sourceColor, setSourceColor] = useState("#5C5CFF");
   const [inputValue, setInputValue] = useState("#5C5CFF");
+  const [variablesCreated, setVariablesCreated] = useState([]);
 
   useEffect(() => {
     createCSSvariables(sourceColor, "teste1000", colorPalette);
