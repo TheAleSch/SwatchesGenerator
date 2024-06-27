@@ -18,6 +18,9 @@
 
 body {
   color: rgb(var(--foreground-rgb));
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(
       to bottom,
       transparent,
