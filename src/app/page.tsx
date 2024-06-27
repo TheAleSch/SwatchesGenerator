@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Color from "colorjs.io";
+import LaunchpadDemo from "@/app/components/LaunchpadDemo";
 
 export default function Home() {
   let baseColor = { h: 54 };
@@ -63,13 +64,14 @@ export default function Home() {
   function createCSSvariables(
     sourceColor: string,
     paletteName: string,
-    array: []
+    array: any
   ) {
     const color = new Color(sourceColor).to("oklch");
     array.forEach((item: object, index: number) => {
       let variableName = `--color-${index}-${paletteName + color.coords[2]}`;
       let colorValue = toHSL(`oklch(${item.l} ${item.c} ${color.coords[2]})`);
       document.documentElement.style.setProperty(variableName, colorValue);
+      setVariablesCreated([...variablesCreated]);
     });
   }
 
@@ -107,6 +109,9 @@ export default function Home() {
               <div key={item.h} className="size-24 rounded bg-slate-400"></div>
             );
           })}
+        </div>
+        <div className="col-span-6 w-full">
+          <LaunchpadDemo />
         </div>
       </div>
     </main>
