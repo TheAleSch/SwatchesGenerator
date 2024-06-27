@@ -23,12 +23,24 @@ function LPheader() {
 
 function LaunchpadDemo() {
   return (
-    <div className=" text-[#404B60]  flex w-[360px] flex-col pb-4 bg-white border rounded-2xl overflow-hidden border-[rgba(255,255,255, 0.1)]">
+    <div className=" text-[#404B60] shadow-lg  flex w-[360px] flex-col pb-4 bg-white border rounded-2xl overflow-hidden border-1 border-[rgba(0,0,0, 1)]">
       <LPheader />
       {/* blocks group */}
       <div className="-mt-[40px] h-auto w-auto flex flex-col px-4 gap-4">
         {/* Links Block */}
-        <div className=" drop-shadow-lg rounded-lg w-full p-2 bg-white">
+        <div className=" drop-shadow-md border  border-[rgba(0,0,0,0.1)] rounded-lg w-full p-2 bg-white">
+          <h2 className="text-[15px] w-full px-2 py-2 font-bold">
+            Block title
+          </h2>
+          {/* items list */}
+          <div className="flex "></div>
+          <LinkItem />
+          <LinkItem />
+          <LinkItem />
+          <LinkItem />
+        </div>
+        {/* Links Block 2 */}
+        <div className="drop-shadow-md border border-10  border-[rgba(0,0,0,0.1)] rounded-lg w-full p-2 bg-white">
           <h2 className="text-[15px] w-full px-2 py-2 font-bold">
             Block title
           </h2>
