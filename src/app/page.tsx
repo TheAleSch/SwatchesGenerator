@@ -51,13 +51,8 @@ export default function Home() {
   // }
 
   // any color to HSL for compatibility reasons
-  interface Color {
-    to(format: string): Color;
-    toGamut(options: { space: string }): Color;
-    toString(): string;
-  }
 
-  function toHSL(input: string): string {
+  function toHSL(input: string) {
     let color = new Color(input)
       .to("hsl")
       .toGamut({ space: "hsl" })
