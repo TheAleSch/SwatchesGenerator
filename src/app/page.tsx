@@ -87,7 +87,7 @@ export default function Home() {
     return mainColor.contrastWCAG21(colorTest);
   }
 
-  function primaryContrastColor(primaryColor) {
+  function primaryContrastColor(primaryColor: any) {
     const constrastLevel = contrastCheck(primaryColor, "black");
 
     if (constrastLevel <= 4.5) {
@@ -139,6 +139,7 @@ export default function Home() {
         >
           Go
         </button>
+        Color: #425678 #f2dfcb #c9d2f8 #5757f2 #f25789
       </aside>
       <div className=" col-span-6 gap-4 flex flex-col">
         <div className="flex gap-2 bg-neutral-100 border-neutral-400 border rounded p-4">
