@@ -15,8 +15,10 @@ function LinkItem() {
 function LPheader() {
   return (
     <div className="flex justify-between w-full py-4 px-4 h-[104px] bg-[--color-main-brand] text-white">
-      <h1 className="text-2xl">Resource Center</h1>
-      <MdClose size={32} />
+      <h1 className="text-2xl text-[--color-textOverPrimary]">
+        Resource Center
+      </h1>
+      <MdClose color="var(--color-textOverPrimary)" size={24} />
     </div>
   );
 }

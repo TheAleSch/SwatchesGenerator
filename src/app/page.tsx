@@ -81,6 +81,22 @@ export default function Home() {
     });
   }
 
+  function contrastCheck(color1: any, color2: any) {
+    let mainColor = new Color(color1);
+    let colorTest = new Color(color2);
+    return mainColor.contrastWCAG21(colorTest);
+  }
+
+  function primaryContrastColor(primaryColor) {
+    const constrastLevel = contrastCheck(primaryColor, "black");
+
+    if (constrastLevel <= 4.5) {
+      injectCSSVariables("white", "textOverPrimary");
+    } else {
+      injectCSSVariables("black", "textOverPrimary");
+    }
+  }
+
   // function createCSSvariables(
   //   sourceColor: string,
   //   paletteName: string,
@@ -102,6 +118,7 @@ export default function Home() {
   useEffect(() => {
     // createCSSvariables(sourceColor, "teste1000", colorPalette);
     generateCSSVars(colorPalette, sourceColor);
+    primaryContrastColor(sourceColor);
     return () => {};
   }, [sourceColor]);
 
@@ -125,9 +142,13 @@ export default function Home() {
       </aside>
       <div className=" col-span-6 gap-4 flex flex-col">
         <div className="flex gap-2 bg-neutral-100 border-neutral-400 border rounded p-4">
-          {colorPalette.map((item) => {
+          {colorPalette.map((item, index) => {
             return (
-              <div key={item.h} className="size-24 rounded bg-slate-400"></div>
+              <div
+                key={item.h}
+                style={{ backgroundColor: `var(--color-main-${index + 1}00)` }}
+                className={`size-24 rounded bg-slate-400`}
+              ></div>
             );
           })}
         </div>
