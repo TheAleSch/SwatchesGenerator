@@ -37,19 +37,6 @@ export default function Home() {
     { h: baseColor.h, s: "60%", l: "93%" },
   ];
 
-  // //any color to oklch accepted by css
-  // function toOKLCH(input: string) {
-  //   let color = new Color(input).to("oklch").toString({ format: "oklch" });
-  //   return color;
-  // }
-
-  // any color to okHSL
-  //not working on released version, I will need to use oklch #cry #sad
-  // function toOkhsl(input) {
-  //   let color = new Color(input).to("okhsl").toString({ format: "okhsl" });
-  //   return color;
-  // }
-
   // any color to HSL for compatibility reasons
 
   function toHSL(input: string) {
@@ -98,6 +85,19 @@ export default function Home() {
     }
   }
 
+  // //any color to oklch accepted by css
+  // function toOKLCH(input: string) {
+  //   let color = new Color(input).to("oklch").toString({ format: "oklch" });
+  //   return color;
+  // }
+
+  // any color to okHSL
+  //not working on released version, I will need to use oklch #cry #sad
+  // function toOkhsl(input) {
+  //   let color = new Color(input).to("okhsl").toString({ format: "okhsl" });
+  //   return color;
+  // }
+
   // function createCSSvariables(
   //   sourceColor: string,
   //   paletteName: string,
@@ -125,25 +125,22 @@ export default function Home() {
 
   return (
     <main className="grid grid-cols-8 gap-4 p-10 w-full min-h-[60vh]">
-      <aside className="col-span-2 bg-neutral-100 border-neutral-400 border rounded p-4 ">
+      <aside className="col-span-2 bg-neutral-100 border-neutral-400 border rounded p- flex flex-col gap-8 p-4 ">
         <h1 className=" text-2xl">Color Playground</h1>
-        <input
-          type="text"
-          onChange={(e) => setInputValue(e.target.value)}
-          value={inputValue}
-          placeholder="Paste color"
-          className="w-full bg-white border-neutral-400 border rounded p-4 "
-        ></input>
-        <button
-          onClick={() => setSourceColor(inputValue)}
-          className="w-full bg-neutral-100 border-neutral-400 border rounded p-4 "
-        >
-          Go
-        </button>
-        Color: #425678 #f2dfcb #c9d2f8 #5757f2 #f25789
+        <div className="flex flex-col gap-2">
+          <label>Pick a color:</label>
+          <input
+            type="color"
+            onChange={(e) => setSourceColor(e.target.value)}
+            value={sourceColor}
+            className="w-full border-neutral-400 border rounded p-4 size-[120px] "
+          ></input>
+        </div>
+        Colors to try:
+        <br /> #425678 #f2dfcb #c9d2f8 #5757f2 #f25789
       </aside>
       <div className=" col-span-6 gap-4 flex flex-col">
-        <div className="flex gap-2 bg-neutral-100 border-neutral-400 border rounded p-4">
+        <div className="w-full flex gap-2 bg-neutral-100 border-neutral-400 border rounded p-4">
           {colorPalette.map((item, index) => {
             return (
               <div
