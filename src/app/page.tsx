@@ -61,26 +61,47 @@ export default function Home() {
     return color;
   }
 
-  function createCSSvariables(
-    sourceColor: string,
-    paletteName: string,
-    array: any
-  ) {
-    const color = new Color(sourceColor).to("oklch");
-    array.forEach((item: object, index: number) => {
-      let variableName = `--color-${index}-${paletteName + color.coords[2]}`;
-      let colorValue = toHSL(`oklch(${item.l} ${item.c} ${color.coords[2]})`);
-      document.documentElement.style.setProperty(variableName, colorValue);
-      setVariablesCreated([...variablesCreated]);
+  function injectCSSVariables(color: string, varName: string) {
+    const cssVar = `--color-${varName}`;
+    document.documentElement.style.setProperty(cssVar, color);
+  }
+
+  function extractHue(color: string) {
+    let colorHue = new Color(color).to("oklch").oklch[2];
+    return colorHue;
+  }
+
+  function generateCSSVars(palette: any, brandColor: string) {
+    injectCSSVariables(brandColor, `main-brand`);
+    const brandHue = extractHue(brandColor);
+    palette.forEach((item: any, index: number) => {
+      const colorValue = toHSL(`oklch(${item.l} ${item.c} ${brandHue})`);
+
+      injectCSSVariables(colorValue, `main-${index + 1}00`);
     });
   }
+
+  // function createCSSvariables(
+  //   sourceColor: string,
+  //   paletteName: string,
+  //   array: any
+  // ) {
+  //   const color = new Color(sourceColor).to("oklch");
+  //   array.forEach((item: object, index: number) => {
+  //     let variableName = `--color-${index}-${paletteName + color.coords[2]}`;
+  //     let colorValue = toHSL(`oklch(${item.l} ${item.c} ${color.coords[2]})`);
+  //     document.documentElement.style.setProperty(variableName, colorValue);
+  //     setVariablesCreated([...variablesCreated]);
+  //   });
+  // }
 
   const [sourceColor, setSourceColor] = useState("#5C5CFF");
   const [inputValue, setInputValue] = useState("#5C5CFF");
   const [variablesCreated, setVariablesCreated] = useState([]);
 
   useEffect(() => {
-    createCSSvariables(sourceColor, "teste1000", colorPalette);
+    // createCSSvariables(sourceColor, "teste1000", colorPalette);
+    generateCSSVars(colorPalette, sourceColor);
     return () => {};
   }, [sourceColor]);
 
