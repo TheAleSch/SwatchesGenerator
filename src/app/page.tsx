@@ -37,11 +37,11 @@ export default function Home() {
     { h: baseColor.h, s: "60%", l: "93%" },
   ];
 
-  //any color to oklch accepted by css
-  function toOKLCH(input: string) {
-    let color = new Color(input).to("oklch").toString({ format: "oklch" });
-    return color;
-  }
+  // //any color to oklch accepted by css
+  // function toOKLCH(input: string) {
+  //   let color = new Color(input).to("oklch").toString({ format: "oklch" });
+  //   return color;
+  // }
 
   // any color to okHSL
   //not working on released version, I will need to use oklch #cry #sad
