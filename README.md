@@ -45,11 +45,10 @@ Traditional HSL-based theming systems often fail to provide consistent visual co
 
 1. **Clone the repository**:
 
-   ```bash
    git clone https://github.com/TheAleSch/SwatchesGenerator.git
    cd SwatchesGenerator
    npm install
-   npm run dev```
+   npm run dev
 
 
    This project is both a working prototype and a color theming playground. Fork it, experiment, and help design a more accessible web.
